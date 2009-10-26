@@ -85,9 +85,14 @@ class MessageImpl implements Message {
     }
 
     public MessageImpl createReply() {
-        MessageImpl m = new MessageImpl(properties, // TODO port this! .clone(),
-                body,
-                routingKey);
+        MessageImpl m = null;
+        try {
+            m = new MessageImpl((AMQP.BasicProperties) properties.clone(),
+                    body,
+                    routingKey);
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e); // Should never happen
+        }
 
         m.setFrom(getTo());
         m.setTo(getReplyTo() == null ? getFrom() : getReplyTo());

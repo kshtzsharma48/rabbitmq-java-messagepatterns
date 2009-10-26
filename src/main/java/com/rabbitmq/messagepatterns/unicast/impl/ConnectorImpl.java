@@ -110,7 +110,7 @@ public class ConnectorImpl implements com.rabbitmq.messagepatterns.unicast.Conne
         for (int i = 0; i < attempts; i++)
         {
             e = attempt(new Thunk() {
-                public void run() {
+                public void run() throws IOException {
                     connection = builder.createConnection();
                 }
             });

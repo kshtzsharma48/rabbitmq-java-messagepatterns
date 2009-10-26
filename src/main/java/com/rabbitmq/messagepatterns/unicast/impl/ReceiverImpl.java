@@ -84,7 +84,7 @@ public class ReceiverImpl implements Receiver {
 
     protected void consume() throws IOException {
         consumer = new QueueingConsumer(channel);
-        consumerTag = channel.basicConsume(queueName, false, null, consumer);
+        consumerTag = channel.basicConsume(queueName, false, "", consumer);
     }
 
     protected void cancel() throws IOException {
@@ -92,25 +92,20 @@ public class ReceiverImpl implements Receiver {
     }
 
     public ReceivedMessageImpl receive() throws Exception {
-        final ReceivedMessageImpl[] res = new ReceivedMessageImpl[1];
-        while (true) {
-            if (connector.attempt(new Thunk() {
-                public void run() throws InterruptedException {
-                    ValueOrException<QueueingConsumer.Delivery, ShutdownSignalException> voe = consumer.getQueue().take();
-                    res[0] = new ReceivedMessageImpl(channel, voe.getValue());
-                }
-            }, connectionListener)) break;
-        }
-        return res[0];
+        return receive(true);
     }
 
     public ReceivedMessageImpl receiveNoWait() throws Exception {
+        return receive(false);
+    }
+
+    private ReceivedMessageImpl receive(final boolean wait) throws Exception {
         final ReceivedMessageImpl[] res = new ReceivedMessageImpl[1];
         while (true) {
             if (connector.attempt(new Thunk() {
                 public void run() throws InterruptedException {
-                    ValueOrException<QueueingConsumer.Delivery, ShutdownSignalException> voe = consumer.getQueue().take(); // TODO port was consumer.Queue.DequeueNoWait
-                    res[0] = new ReceivedMessageImpl(channel, voe.getValue());
+                    QueueingConsumer.Delivery del = wait ? consumer.nextDelivery() : consumer.nextDelivery(0);
+                    res[0] = del == null ? null : new ReceivedMessageImpl(channel, del);
                 }
             }, connectionListener)) break;
         }

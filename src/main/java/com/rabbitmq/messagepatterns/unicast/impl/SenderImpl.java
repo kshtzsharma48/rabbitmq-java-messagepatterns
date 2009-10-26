@@ -119,7 +119,7 @@ public class SenderImpl implements Sender {
 
     public MessageImpl createMessage() {
         MessageImpl m = new MessageImpl();
-        m.setProperties(new AMQP.BasicProperties()); // TODO port this was channel.CreateBasicProperties
+        m.setProperties(new AMQP.BasicProperties());
         m.setFrom(identity);
         m.setMessageId(nextId());
         return m;
