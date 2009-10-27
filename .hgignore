@@ -1,0 +1,6 @@
+syntax: glob
+target
+*.ipr
+*.iws
+*.iml
+
