@@ -40,7 +40,7 @@ public class SenderImpl implements Sender {
     }
 
     public String getCurrentId() {
-        return String.format("{0:x8}{1:x8}",
+        return String.format("%16x%16x",
                 msgIdPrefix, msgIdSuffix);
     }
 
