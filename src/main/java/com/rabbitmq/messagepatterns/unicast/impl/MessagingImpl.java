@@ -5,7 +5,7 @@ import com.rabbitmq.messagepatterns.unicast.*;
 class Validator {
     public static void checkNotNull(Object thing, Object c, String prop) {
         if (thing == null) {
-            String msg = String.format("'{0}' property in {1} " +
+            String msg = String.format("'%s' property in %s " +
                     "must not be null",
                     prop, c);
             throw new UnsupportedOperationException(msg);

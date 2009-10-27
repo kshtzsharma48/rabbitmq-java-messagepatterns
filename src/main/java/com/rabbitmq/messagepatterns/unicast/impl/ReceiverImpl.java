@@ -3,9 +3,7 @@ package com.rabbitmq.messagepatterns.unicast.impl;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.QueueingConsumer;
 import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ShutdownSignalException;
 import com.rabbitmq.messagepatterns.unicast.*;
-import com.rabbitmq.utility.ValueOrException;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -14,7 +12,7 @@ import java.io.IOException;
 public class ReceiverImpl implements Receiver {
     protected com.rabbitmq.messagepatterns.unicast.Connector connector;
     protected String identity;
-    protected String queueName = "";
+    protected String explicitQueueName = "";
 
     protected Channel channel;
 
@@ -32,11 +30,11 @@ public class ReceiverImpl implements Receiver {
     }
 
     public String getQueueName() {
-        return ("".equals(queueName) ? identity : queueName);
+        return ("".equals(explicitQueueName) ? identity : explicitQueueName);
     }
 
     public void setQueueName(String value) {
-        queueName = value;
+        explicitQueueName = value;
     }
 
     public com.rabbitmq.messagepatterns.unicast.Connector getConnector() {
@@ -64,8 +62,8 @@ public class ReceiverImpl implements Receiver {
     }
 
     protected void checkProps() {
-        Validator.checkNotNull(connector, this, "Connector");
-        Validator.checkNotNull(queueName, this, "QueueName");
+        Validator.checkNotNull(getConnector(), this, "Connector");
+        Validator.checkNotNull(getQueueName(), this, "QueueName");
     }
 
     protected void connect(Connection conn) throws IOException {
@@ -84,7 +82,7 @@ public class ReceiverImpl implements Receiver {
 
     protected void consume() throws IOException {
         consumer = new QueueingConsumer(channel);
-        consumerTag = channel.basicConsume(queueName, false, "", consumer);
+        consumerTag = channel.basicConsume(getQueueName(), false, consumer);
     }
 
     protected void cancel() throws IOException {

@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.List;
 import java.util.ArrayList;
 
-public class ConnectorImpl implements com.rabbitmq.messagepatterns.unicast.Connector
+public class ConnectorImpl implements Connector
 {
     protected int pause = 1000; // ms
     protected int attempts = 60;
@@ -81,6 +81,7 @@ public class ConnectorImpl implements com.rabbitmq.messagepatterns.unicast.Conne
         return false;
     }
 
+    
     public void close()
     {
         closed.release();
@@ -89,12 +90,6 @@ public class ConnectorImpl implements com.rabbitmq.messagepatterns.unicast.Conne
             if (connection != null) connection.abort();
         }
     }
-
-    // TODO port this?
-    /*void IDisposable.Dispose()
-    {
-        close();
-    }*/
 
     protected synchronized Connection connect() throws Exception
     {
