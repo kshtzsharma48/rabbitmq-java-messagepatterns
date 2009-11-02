@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <project>
   <modelVersion>4.0.0</modelVersion>
+  <name>RabbitMQ Java MessagePatterns</name>
   <groupId>com.rabbitmq</groupId>
   <artifactId>rabbitmq-messagepatterns</artifactId>
   <version>0.1</version>
