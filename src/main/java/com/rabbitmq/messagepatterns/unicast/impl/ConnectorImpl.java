@@ -22,7 +22,7 @@ public class ConnectorImpl implements Connector
     protected ConnectorState state = ConnectorState.DISCONNECTED;
     protected ConnectionBuilder builder;
     protected Connection connection;
-    protected Semaphore closed = new Semaphore(1);
+    protected final Object closed = new Object();
 
     public int getPause() {
         return pause;
@@ -84,7 +84,10 @@ public class ConnectorImpl implements Connector
     
     public void close()
     {
-        closed.release();
+        synchronized (closed)
+        {
+          closed.notifyAll();
+        }
         synchronized (this)
         {
             if (connection != null) connection.abort();
@@ -111,7 +114,17 @@ public class ConnectorImpl implements Connector
             });
             onStateChange(ConnectorState.CONNECTED);
             if (e == null) return connection;
-            if (closed.tryAcquire(pause, TimeUnit.MILLISECONDS)) break;
+            try
+            {
+                synchronized (closed)
+                {
+                    closed.wait(pause);
+                }
+            }
+            catch (InterruptedException ie)
+            {
+                break;
+            }
         }
         throw (e);
     }

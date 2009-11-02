@@ -9,7 +9,9 @@ import com.rabbitmq.client.*;
 import java.io.IOException;
 import java.io.EOFException;
 
-public class UnicastTest {
+import junit.framework.TestCase;
+
+public class UnicastTest extends TestCase {
     private ConnectionFactory _factory;
     private ConnectionBuilder _builder;
         MessagingClosure senderSetup = new MessagingClosure() {
