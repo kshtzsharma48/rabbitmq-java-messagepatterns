@@ -1,5 +1,7 @@
 package com.rabbitmq.messagepatterns.unicast;
 
+import java.io.IOException;
+
 public interface Receiver extends MessagingCommon {
     public void addSetupListener(ChannelSetupListener channelSetup);
     public void removeSetupListener(ChannelSetupListener channelSetup);
@@ -14,4 +16,6 @@ public interface Receiver extends MessagingCommon {
     public ReceivedMessage receiveNoWait() throws Exception;
 
     public void ack(ReceivedMessage m) throws Exception;
+
+    public void cancel() throws IOException;
 }

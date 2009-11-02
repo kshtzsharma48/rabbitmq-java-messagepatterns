@@ -85,7 +85,7 @@ public class ReceiverImpl implements Receiver {
         consumerTag = channel.basicConsume(getQueueName(), false, consumer);
     }
 
-    protected void cancel() throws IOException {
+    public void cancel() throws IOException {
         channel.basicCancel(consumerTag);
     }
 
@@ -125,5 +125,4 @@ public class ReceiverImpl implements Receiver {
             }
         }, connectionListener);
     }
-
 }

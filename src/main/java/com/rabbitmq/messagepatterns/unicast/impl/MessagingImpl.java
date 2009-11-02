@@ -2,6 +2,8 @@ package com.rabbitmq.messagepatterns.unicast.impl;
 
 import com.rabbitmq.messagepatterns.unicast.*;
 
+import java.io.IOException;
+
 class Validator {
     public static void checkNotNull(Object thing, Object c, String prop) {
         if (thing == null) {
@@ -131,6 +133,10 @@ public class MessagingImpl implements com.rabbitmq.messagepatterns.unicast.Messa
         receiver.ack(m);
     }
 
-    public MessagingImpl() {
+    public void cancel() throws IOException {
+        receiver.cancel();
+    }
+
+  public MessagingImpl() {
     }
 }
