@@ -90,19 +90,23 @@ public class ReceiverImpl implements Receiver {
     }
 
     public ReceivedMessageImpl receive() throws Exception {
-        return receive(true);
+        return receive(-1);
     }
 
     public ReceivedMessageImpl receiveNoWait() throws Exception {
-        return receive(false);
+        return receive(0);
     }
 
-    private ReceivedMessageImpl receive(final boolean wait) throws Exception {
+    public ReceivedMessageImpl receive(final long timeout) throws Exception {
         final ReceivedMessageImpl[] res = new ReceivedMessageImpl[1];
         while (true) {
             if (connector.attempt(new Thunk() {
                 public void run() throws InterruptedException {
-                    QueueingConsumer.Delivery del = wait ? consumer.nextDelivery() : consumer.nextDelivery(0);
+                    QueueingConsumer.Delivery del;
+                    if (timeout < 0)
+                        del = consumer.nextDelivery();
+                    else
+                        del = consumer.nextDelivery(timeout);
                     res[0] = del == null ? null : new ReceivedMessageImpl(channel, del);
                 }
             }, connectionListener)) break;

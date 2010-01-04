@@ -12,7 +12,7 @@ public interface Receiver extends MessagingCommon {
     public void init() throws Exception;
 
     public ReceivedMessage receive() throws Exception;
-
+    public ReceivedMessage receive(long timeout) throws Exception;
     public ReceivedMessage receiveNoWait() throws Exception;
 
     public void ack(ReceivedMessage m) throws Exception;
