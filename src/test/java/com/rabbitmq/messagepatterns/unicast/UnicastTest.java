@@ -267,4 +267,25 @@ public class UnicastTest extends TestCase {
         }
     }
 
+    public void testTimeout() throws Exception {
+      Connector conn = Factory.createConnector(_builder);
+        try {
+            //create a receiving party
+            final Receiver foo = Factory.createReceiver();
+            foo.setConnector(conn);
+            foo.setIdentity("foo");
+            foo.addSetupListener(new ChannelSetupListener() {
+                public void channelSetup(Channel channel) throws IOException {
+                    declareQueue(channel, foo.getIdentity());
+                }
+            });
+            foo.init();
+
+            //timeout receiving a message at foo
+            ReceivedMessage rb = foo.receive(10);
+            assertNull(rb);
+        } finally {
+            conn.close();
+        }
+    }
 }
