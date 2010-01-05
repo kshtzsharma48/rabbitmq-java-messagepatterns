@@ -125,6 +125,10 @@ public class MessagingImpl implements com.rabbitmq.messagepatterns.unicast.Messa
         return receiver.receive();
     }
 
+    public ReceivedMessage receive(long timeout) throws Exception {
+        return receiver.receive(timeout);
+    }
+
     public ReceivedMessage receiveNoWait() throws Exception {
         return receiver.receiveNoWait();
     }
