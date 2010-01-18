@@ -1,21 +1,18 @@
 package com.rabbitmq.messagepatterns.unicast.impl;
 
-import com.rabbitmq.messagepatterns.unicast.*;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.messagepatterns.unicast.*;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SenderImpl implements Sender {
+public class SenderImpl extends ChannelAware implements Sender {
     protected Connector connector;
     protected String identity;
     protected String exchangeName = "";
     protected boolean transactional = true;
-
-    protected Channel channel;
 
     protected long msgIdPrefix;
     protected long msgIdSuffix;

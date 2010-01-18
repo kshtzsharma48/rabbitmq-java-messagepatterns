@@ -2,7 +2,7 @@ package com.rabbitmq.messagepatterns.unicast;
 
 import java.io.IOException;
 
-public interface Receiver extends MessagingCommon {
+public interface Receiver extends MessagingCommon, Disposable {
     public void addSetupListener(ChannelSetupListener channelSetup);
     public void removeSetupListener(ChannelSetupListener channelSetup);
 

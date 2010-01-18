@@ -1,6 +1,6 @@
 package com.rabbitmq.messagepatterns.unicast;
 
-public interface Sender extends MessagingCommon {
+public interface Sender extends Disposable, MessagingCommon {
     /**
      * Event issued when a connection requires setup. This will be fired upon initial connection, and
      * then whenever a failure requires the connection to be re-established.
