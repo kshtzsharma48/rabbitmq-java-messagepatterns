@@ -1,20 +1,17 @@
 package com.rabbitmq.messagepatterns.unicast.impl;
 
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.QueueingConsumer;
 import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.QueueingConsumer;
 import com.rabbitmq.messagepatterns.unicast.*;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ReceiverImpl implements Receiver {
+public class ReceiverImpl extends ChannelAware implements Receiver {
     protected com.rabbitmq.messagepatterns.unicast.Connector connector;
     protected String identity;
     protected String explicitQueueName = "";
-
-    protected Channel channel;
 
     protected QueueingConsumer consumer;
     protected String consumerTag;

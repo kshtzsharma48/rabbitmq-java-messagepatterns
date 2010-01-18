@@ -89,6 +89,7 @@ public class UnicastTest extends TestCase {
             ReceivedMessage rf = foo.receive();
             TestHelper.logMessage("recv", foo, rf);
             foo.ack(rf);
+            foo.close();
         } finally {
             conn.close();
         }
@@ -218,6 +219,7 @@ public class UnicastTest extends TestCase {
             ReceivedMessage rf = foo.receive();
             TestHelper.logMessage("recv", foo, rf);
             foo.ack(rf);
+            foo.close();
         }
         finally {
             conn.close();
@@ -284,6 +286,7 @@ public class UnicastTest extends TestCase {
             //timeout receiving a message at foo
             ReceivedMessage rb = foo.receive(10);
             assertNull(rb);
+            foo.close();
         } finally {
             conn.close();
         }

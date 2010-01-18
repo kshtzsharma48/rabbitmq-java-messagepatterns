@@ -109,6 +109,11 @@ public class MessagingImpl implements com.rabbitmq.messagepatterns.unicast.Messa
         receiver.init();
     }
 
+    public void close() throws IOException {
+        sender.close();
+        receiver.close();
+    }
+
     public Message createMessage() {
         return sender.createMessage();
     }
