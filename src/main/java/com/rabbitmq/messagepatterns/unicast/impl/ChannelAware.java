@@ -1,13 +1,15 @@
 package com.rabbitmq.messagepatterns.unicast.impl;
 
 import com.rabbitmq.client.Channel;
-import com.rabbitmq.messagepatterns.unicast.Disposable;
 
-public abstract class ChannelAware implements Disposable {
+import java.io.Closeable;
+import java.io.IOException;
+
+public abstract class ChannelAware implements Closeable {
 
     protected Channel channel;
 
-    public void terminate() throws Exception {
+    public void close() throws IOException {
         channel.close();
     }
 
