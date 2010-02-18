@@ -45,6 +45,28 @@ public class UnicastTest extends TestCase {
         m.queueBind(q, x, rk);
     }
 
+    public void testFailureOnMissingQueue() throws Exception {
+        Connector conn = Factory.createConnector(_builder);
+        conn.setAttempts(2);
+        conn.setPause(1);
+        try {
+            //create two parties
+            final Messaging foo = Factory.createMessaging();
+            foo.setConnector(conn);
+            foo.setIdentity("foo");
+
+            try {
+                foo.init();
+                foo.receive();
+                fail("Should have thrown exception for missing queue");
+            } catch (IOException ex) {
+                assertTrue("Should get a ShutdownSignal cause", ex.getCause() instanceof ShutdownSignalException);
+            }
+        } finally {
+            conn.close();
+        }
+    }
+
     public void testDirect() throws Exception {
         Connector conn = Factory.createConnector(_builder);
         try {
