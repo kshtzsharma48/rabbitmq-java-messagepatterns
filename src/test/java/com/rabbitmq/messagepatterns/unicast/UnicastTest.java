@@ -50,7 +50,6 @@ public class UnicastTest extends TestCase {
         conn.setAttempts(2);
         conn.setPause(1);
         try {
-            //create two parties
             final Messaging foo = Factory.createMessaging();
             foo.setConnector(conn);
             foo.setIdentity("foo");
