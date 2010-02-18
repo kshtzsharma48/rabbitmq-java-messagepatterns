@@ -203,6 +203,12 @@ public class ConnectorImpl implements Connector
         }*/
         catch (IOException e)
         {
+            if (e.getCause() instanceof ShutdownSignalException &&
+                  !isShutdownRecoverable((ShutdownSignalException) e.getCause()))
+            {
+                throw e;
+            }
+
             //TODO: we may want to be more specific here
             return e;
         }
