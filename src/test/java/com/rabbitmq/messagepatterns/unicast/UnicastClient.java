@@ -48,7 +48,7 @@ public class UnicastClient {
         Connector conn =
                 Factory.createConnector(new ConnectionBuilder() {
                     public Connection createConnection() throws IOException {
-                        return new ConnectionFactory().newConnection("localhost");
+                        return new ConnectionFactory().newConnection();
                     }
                 });
         Messaging m = Factory.createMessaging();
@@ -60,12 +60,12 @@ public class UnicastClient {
                 //We declare the recipient queue here to avoid
                 //sending messages into the ether. That's an ok
                 //thing to do for testing
-                channel.queueDeclare(you, true); //durable
+                channel.queueDeclare(you, true, false, false, null); //durable
             }
         });
         m.addReceiverSetupListener(new ChannelSetupListener() {
             public void channelSetup(Channel channel) throws IOException {
-                channel.queueDeclare(me, true); //durable
+                channel.queueDeclare(me, true, false, false, null); //durable
             }
         });
         m.init();

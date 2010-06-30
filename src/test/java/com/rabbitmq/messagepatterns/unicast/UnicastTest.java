@@ -28,17 +28,17 @@ public class UnicastTest extends TestCase {
         _factory = new ConnectionFactory();
         _builder = new ConnectionBuilder() {
             public Connection createConnection() throws IOException {
-                return _factory.newConnection("localhost");
+                return _factory.newConnection();
             }
         };
     }
 
     protected void declareExchange(Channel m, String name, String type) throws IOException {
-        m.exchangeDeclare(name, type, false, false, true, null);
+        m.exchangeDeclare(name, type, false, true, null);
     }
 
     protected void declareQueue(Channel m, String name) throws IOException {
-        m.queueDeclare(name, false, false, false, true, null);
+        m.queueDeclare(name, false, false, true, null);
     }
 
     protected void bindQueue(Channel m, String q, String x, String rk) throws IOException {
